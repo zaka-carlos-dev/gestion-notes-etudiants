@@ -17,33 +17,63 @@ class Note(db.Model):
     note = db.Column(db.Float, nullable=False)
 
 def mention(moy):
-    if moy >= 16: return "Très Bien"
-    if moy >= 14: return "Bien"
-    if moy >= 12: return "Assez Bien"
-    if moy >= 10: return "Passable"
+    if moy >= 16:
+        return "Très Bien"
+    if moy >= 14:
+        return "Bien"
+    if moy >= 12:
+        return "Assez Bien"
+    if moy >= 10:
+        return "Passable"
     return "Insuffisant"
 
 @app.route('/')
 def index():
     notes = Note.query.all()
     grouped = defaultdict(list)
-    for n in notes: grouped[n.nom].append(n)
+    for n in notes:
+        grouped[n.nom].append(n)
+
     eleves = []
     for nom, lst in grouped.items():
-        moy = sum(x.note for x in lst)/len(lst)
-        eleves.append({'nom':nom,'classe':lst[0].classe,'notes':lst,'moyenne':round(moy,2),'mention':mention(moy),'statut':'Admis' if moy>=10 else 'Redouble'})
+        moy = sum(x.note for x in lst) / len(lst)
+        eleves.append({
+            'nom': nom,
+            'classe': lst[0].classe,
+            'notes': lst,
+            'moyenne': round(moy, 2),
+            'mention': mention(moy),
+            'statut': 'Admis' if moy >= 10 else 'Redouble'
+        })
+
     eleves.sort(key=lambda x: x['moyenne'], reverse=True)
-    for i,e in enumerate(eleves): e['rang']=i+1
-    total=len(eleves)
-    moy_classe=round(sum(e['moyenne'] for e in eleves)/total,1) if total else 0
-    taux=round(len([e for e in eleves if e['moyenne']>=10])/total*100) if total else 0
-    meilleure=eleves[0]['moyenne'] if eleves else 0
-    meilleur_nom=eleves[0]['nom'] if eleves else "-"
+    for i, e in enumerate(eleves):
+        e['rang'] = i + 1
+
+    total = len(eleves)
+    if total > 0:
+        moy_classe = round(sum(e['moyenne'] for e in eleves) / total, 1)
+        admis = len([e for e in eleves if e['moyenne'] >= 10])
+        taux = round(admis / total * 100)
+        meilleure = eleves[0]['moyenne']
+        meilleur_nom = eleves[0]['nom']
+    else:
+        moy_classe = 0
+        taux = 0
+        meilleure = 0
+        meilleur_nom = "-"
+
     return render_template('index.html', eleves=eleves, total=total, moy_classe=moy_classe, taux=taux, meilleure=meilleure, meilleur_nom=meilleur_nom)
 
 @app.route('/add', methods=['POST'])
 def add():
-    db.session.add(Note(nom=request.form['nom'], classe=request.form['classe'], matiere=request.form['matiere'], note=float(request.form['note'])))
+    new_note = Note(
+        nom=request.form['nom'],
+        classe=request.form['classe'],
+        matiere=request.form['matiere'],
+        note=float(request.form['note'])
+    )
+    db.session.add(new_note)
     db.session.commit()
     return redirect('/')
 
@@ -53,5 +83,8 @@ def delete(id):
     db.session.commit()
     return redirect('/')
 
-with app.app_context(): db.create_all()
-if __name__ == '__main__': app.run(host='0.0.0.0', port=int(os.environ.get('PORT',5000)))
+with app.app_context():
+    db.create_all()
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
