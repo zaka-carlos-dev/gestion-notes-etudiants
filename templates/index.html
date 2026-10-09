@@ -41,25 +41,19 @@ nav { border-radius: 0 0 16px 16px; }
   <div class="col-md-3">
     <div class="card text-white p-3" style="background:#198754; border-radius:16px;">
       <small>Taux Admis</small>
-      <h4 class="mb-0">{{ "%.0f"|format(taux_admis) }}% </h4>
+      <h4 class="mb-0">0%</h4>
     </div>
   </div>
   <div class="col-md-3">
     <div class="card text-dark p-3" style="background:#ffc107; border-radius:16px;">
       <small>Moy Classe</small>
-      <h4 class="mb-0">{{ "%.2f"|format(moy_classe) }}</h4>
+      <h4 class="mb-0">0.00</h4>
     </div>
   </div>
   <div class="col-md-3">
     <div class="card text-white p-3" style="background:#343a40; border-radius:16px;">
       <small>Meilleure Moyenne</small>
-      <h4 class="mb-0">
-        {% if classement and classement|length > 0 %}
-          {{ "%.2f"|format(classement[0].moy) }}/20
-        {% else %}
-          - /20
-        {% endif %}
-      </h4>
+      <h4 class="mb-0">- /20</h4>
     </div>
   </div>
 </div>
