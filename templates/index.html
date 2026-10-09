@@ -31,7 +31,38 @@ nav { border-radius: 0 0 16px 16px; }
 
 <div class="container mt-4">
 <!-- TON ANCIEN CONTENU GARDE LE EN DESSOUS, NE TOUCHE PAS AU RESTE -->
-<div class="row g-2 mb-3"><div class="col-3"><div class="card-stat bg-primary"><small>Effectif</small><h4>{{ total }}/35</h4></div></div><div class="col-3"><div class="card-stat bg-success"><small>Taux Admis</small><h4>{{ "%.0f"|format(taux) }}%</h4></div></div><div class="col-3"><div class="card-stat bg-warning text-dark"><small>Moy Classe</small><h4>{{ "%.2f"|format(moy_classe) }}</h4></div></div><div class="col-3"><div class="card-stat bg-dark"><small>Major</small><h4>{{ "%.2f"|format(meilleure) }}</h4></div></div></div>
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="card text-white p-3" style="background:#0d6efd; border-radius:16px;">
+      <small>Effectif</small>
+      <h4 class="mb-0">{{ etudiants|length }}/35</h4>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-white p-3" style="background:#198754; border-radius:16px;">
+      <small>Taux Admis</small>
+      <h4 class="mb-0">{{ "%.0f"|format(taux_admis) }}% </h4>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-dark p-3" style="background:#ffc107; border-radius:16px;">
+      <small>Moy Classe</small>
+      <h4 class="mb-0">{{ "%.2f"|format(moy_classe) }}</h4>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-white p-3" style="background:#343a40; border-radius:16px;">
+      <small>Meilleure Moyenne</small>
+      <h4 class="mb-0">
+        {% if classement and classement|length > 0 %}
+          {{ "%.2f"|format(classement[0].moy) }}/20
+        {% else %}
+          - /20
+        {% endif %}
+      </h4>
+    </div>
+  </div>
+</div>
 <div class="row"><div class="col-md-3"><div class="card p-2 shadow-sm"><h6 class="fw-bold">Bulletin 14 matières</h6><form method="POST" action="/add"><input name="nom" class="form-control form-control-sm mb-2" placeholder="Nom complet" required><select name="classe" class="form-select form-select-sm mb-2"><option>BTS 1 IDA</option><option>BTS 2 IDA</option></select>
 <div style="max-height:400px;overflow-y:auto" class="small">
 Français x2<input type="number" step="0.01" min="0" max="20" name="francais" class="form-control form-control-sm mb-1" required>
