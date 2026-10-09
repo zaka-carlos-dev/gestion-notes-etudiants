@@ -1,136 +1,26 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestion Notes - BTS IDA</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<style>
-body{background:#f4f6f9;font-family:'Segoe UI',sans-serif}
-.navbar{background:linear-gradient(90deg,#0d1b4a,#1e3a8a)}
-.card-stat{border:none;border-radius:16px;color:white;padding:18px}
-.card-stat h3{font-weight:800}
-</style>
-</head>
-<body>
-<nav class="navbar navbar-dark p-3">
-<div class="container-fluid">
-<span class="navbar-brand fw-bold">📚 Gestion Notes - BTS IDA</span>
-<span class="badge bg-light text-dark">IDA - Dev d'Applications</span>
-</div>
-</nav>
-
-<div class="container mt-4">
-<div class="row g-3 mb-4">
-<div class="col-md-3"><div class="card-stat" style="background:#2563eb"><small>Total Étudiants</small><h3>{{ etudiants|length }}</h3></div></div>
-<div class="col-md-3"><div class="card-stat" style="background:#16a34a"><small>Taux d'admission</small><h3>{{ "%.1f"|format(taux_admission) }}%</h3></div></div>
-<div class="col-md-3"><div class="card-stat" style="background:#f59e0b"><small>Moyenne classe</small><h3>{{ "%.2f"|format(moyenne_classe) }}/20</h3></div></div>
-<div class="col-md-3"><div class="card-stat" style="background:#9333ea"><small>Meilleure moyenne</small><h3>{{ "%.2f"|format(meilleure_moyenne) }}/20</h3></div></div>
-</div>
-
-<div class="row">
-<div class="col-md-4">
-<div class="card shadow-sm border-0 rounded-4">
-<div class="card-body">
-<h5 class="fw-bold mb-3">Ajouter une note BTS IDA</h5>
-<form method="POST" action="/add">
-<label class="form-label">Nom complet</label>
-<input type="text" name="nom" class="form-control mb-3" placeholder="Ex: KOUADIO Jean" required>
-
-<div class="row">
-<div class="col-6">
-<label class="form-label">Niveau</label>
-<select name="classe" class="form-select mb-3" required>
-<option>BTS 1 IDA</option>
-<option>BTS 2 IDA</option>
-</select>
-</div>
-<div class="col-6">
-<label class="form-label">Filière</label>
-<select name="filiere" class="form-select mb-3">
-<option selected>IDA</option>
-</select>
-</div>
-</div>
-
-<label class="form-label">Matière BTS IDA</label>
-<select name="matiere" class="form-select mb-3" required>
-<optgroup label="📚 Enseignement Général">
-<option>Français / Techniques d'expression française</option>
-<option>Anglais (dont anglais technique)</option>
-<option>Mathématiques</option>
-<option>Économie et Gestion</option>
-<option>Entrepreneuriat</option>
-<option>Droit</option>
-</optgroup>
-<optgroup label="💻 Enseignement Pro et Technique">
-<option>Algorithmique et programmation structurée</option>
-<option>Langages évolués (C, C++, Pascal, Java)</option>
-<option>Développement Web (HTML, CSS, JavaScript, PHP)</option>
-<option>Bases de données (SQL, MySQL, Merise)</option>
-<option>Architecture des ordinateurs</option>
-<option>Systèmes d'exploitation et sécurité informatique</option>
-<option>Réseaux et téléinformatique</option>
-<option>Conception SI (MERISE, UML)</option>
-</optgroup>
-</select>
-
-<label class="form-label">Note /20</label>
-<input type="number" name="note" step="0.01" min="0" max="20" class="form-control mb-3" required>
-<button class="btn btn-primary w-100 fw-bold">Ajouter</button>
-</form>
-</div>
-</div>
-</div>
-<div class="col-md-8">
-<div class="card shadow-sm border-0 rounded-4">
-<div class="card-body">
-<h5 class="fw-bold mb-3">Liste des étudiants BTS IDA</h5>
-<div class="table-responsive">
-<table class="table table-hover align-middle">
-<thead class="table-light">
-<tr>
-<th>Nom</th>
-<th>Niveau</th>
-<th>Matière</th>
-<th>Note</th>
-<th>Mention</th>
-<th>Statut</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BTS IDA - 35 élèves</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><style>body{background:#eef2f7}.navbar{background:#0d1b4a}.card-stat{color:white;border-radius:12px;padding:12px}</style></head><body>
+<nav class="navbar navbar-dark p-3"><div class="container-fluid"><b class="navbar-brand">📚 BTS IDA - Classe 35 - Coeff 38</b><a href="/admin" class="btn btn-light btn-sm">🔐 Admin</a></div></nav>
+<div class="container-fluid mt-3">
+<div class="row g-2 mb-3"><div class="col-3"><div class="card-stat bg-primary"><small>Effectif</small><h4>{{ total }}/35</h4></div></div><div class="col-3"><div class="card-stat bg-success"><small>Taux Admis</small><h4>{{ "%.0f"|format(taux) }}%</h4></div></div><div class="col-3"><div class="card-stat bg-warning text-dark"><small>Moy Classe</small><h4>{{ "%.2f"|format(moy_classe) }}</h4></div></div><div class="col-3"><div class="card-stat bg-dark"><small>Major</small><h4>{{ "%.2f"|format(meilleure) }}</h4></div></div></div>
+<div class="row"><div class="col-md-3"><div class="card p-2 shadow-sm"><h6 class="fw-bold">Bulletin 14 matières</h6><form method="POST" action="/add"><input name="nom" class="form-control form-control-sm mb-2" placeholder="Nom complet" required><select name="classe" class="form-select form-select-sm mb-2"><option>BTS 1 IDA</option><option>BTS 2 IDA</option></select>
+<div style="max-height:400px;overflow-y:auto" class="small">
+Français x2<input type="number" step="0.01" min="0" max="20" name="francais" class="form-control form-control-sm mb-1" required>
+Anglais x2<input type="number" step="0.01" name="anglais" class="form-control form-control-sm mb-1" required>
+Maths x3<input type="number" step="0.01" name="maths" class="form-control form-control-sm mb-1" required>
+Economie x2<input type="number" step="0.01" name="economie" class="form-control form-control-sm mb-1" required>
+Gestion x2<input type="number" step="0.01" name="gestion" class="form-control form-control-sm mb-1" required>
+Droit x1<input type="number" step="0.01" name="droit" class="form-control form-control-sm mb-1" required>
+Entrepreneuriat x1<input type="number" step="0.01" name="entrepreneuriat" class="form-control form-control-sm mb-1" required>
+Algo x3<input type="number" step="0.01" name="algo" class="form-control form-control-sm mb-1" required>
+Langages x3<input type="number" step="0.01" name="langage" class="form-control form-control-sm mb-1" required>
+Dev Web x4<input type="number" step="0.01" name="devweb" class="form-control form-control-sm mb-1" required>
+BDD x3<input type="number" step="0.01" name="bdd" class="form-control form-control-sm mb-1" required>
+Archi x2<input type="number" step="0.01" name="archi" class="form-control form-control-sm mb-1" required>
+SE x2<input type="number" step="0.01" name="se" class="form-control form-control-sm mb-1" required>
+Etude de Cas x8<input type="number" step="0.01" name="merise" class="form-control form-control-sm mb-1" required>
+</div><button class="btn btn-primary btn-sm w-100 mt-2">Enregistrer</button></form></div></div>
+<div class="col-md-9"><div class="card p-3 shadow-sm"><h6 class="fw-bold">Classement Général - Moyenne pondérée /38 coeffs</h6><div class="table-responsive"><table class="table table-sm table-hover"><thead class="table-dark"><tr><th>Rang</th><th>Nom</th><th>Moy /20</th><th>Mention</th><th>Décision</th><th>X</th></tr></thead><tbody>
 {% for e in etudiants %}
-<tr>
-<td class="fw-bold">{{ e.nom }}</td>
-<td><span class="badge bg-primary">{{ e.classe }}</span></td>
-<td style="font-size:0.85em">{{ e.matiere }}</td>
-<td class="fw-bold">{{ "%.2f"|format(e.note) }}/20</td>
-<td>
-{% if e.note >= 16 %}<span class="badge bg-success">Très Bien</span>
-{% elif e.note >= 14 %}<span class="badge bg-info">Bien</span>
-{% elif e.note >= 12 %}<span class="badge bg-primary">Assez Bien</span>
-{% elif e.note >= 10 %}<span class="badge bg-warning text-dark">Passable</span>
-{% else %}<span class="badge bg-danger">Insuffisant</span>{% endif %}
-</td>
-<td>
-{% if e.note >= 10 %}<span class="text-success fw-bold">Admis</span>
-{% else %}<span class="text-danger fw-bold">Ajourné</span>{% endif %}
-</td>
-<td><a href="/delete/{{ e.id }}" class="btn btn-sm btn-outline-danger">X</a></td>
-</tr>
+<tr><td>#{{ e.rang }}</td><td>{{ e.nom }}</td><td><b>{{ "%.2f"|format(e.moyenne) }}</b></td><td>{{ e.mention }}</td><td>{% if e.moyenne>=10 %}<span class="text-success fw-bold">Admis BTS2</span>{% else %}<span class="text-danger fw-bold">Ajourné</span>{% endif %}</td><td><a href="/delete/{{ e.id }}" class="btn btn-sm btn-danger">X</a></td></tr>
 {% endfor %}
-</tbody>
-</table>
-{% if etudiants|length == 0 %}
-<p class="text-center text-muted mt-3">Aucun étudiant. Ajoute le premier en BTS 1 IDA !</p>
-{% endif %}
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</body>
-</html>
+</tbody></table>{% if etudiants|length==0 %}<p class="text-center text-muted">Classe vide - Ajoute 35 élèves max</p>{% endif %}</div></div></div></div></div></body></html>
